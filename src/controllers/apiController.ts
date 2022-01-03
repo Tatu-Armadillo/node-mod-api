@@ -17,8 +17,47 @@ export const name = (req: Request, res: Response) => {
 
 export const createPhrase = async (req: Request, res: Response) => {
     let { author, txt } = req.body;
-    console.log(author, txt);
-
     let newPhrase = await Phrase.create({ author: author, txt: txt });
     res.json({ id: newPhrase.id, author, txt });
 };
+
+export const listPhrases = async (req: Request, res: Response) => {
+    let list = await Phrase.findAll();
+    res.json({ list });
+}
+
+
+export const getPhrase = async (req: Request, res: Response) => {
+    let { id } = req.params;
+    let phrase = await Phrase.findByPk(id);
+    if (!phrase) {
+        res.json({ "error": "Frase não encontrada" });
+    } else {
+        res.json({ phrase });
+    }
+}
+
+export const updatePhrase = async (req: Request, res: Response) => {
+    let { id } = req.params;
+    let { author, txt } = req.body;
+
+    let phrase = await Phrase.findByPk(id);
+    if (!phrase) {
+        res.json({ "error": "Frase não encontrada" });
+    } else {
+        phrase.author = author;
+        phrase.txt = txt;
+        await phrase.save();
+        res.json({ phrase })
+    }
+}
+
+export const deletePhrase = async (req: Request, res: Response) => {
+    let { id } = req.params;
+    let rows = await Phrase.destroy({ where: { id } })
+    if (rows > 0) {
+        res.json({"success": `id: ${id}, deltado com sucesso`}) 
+    } else {
+        res.json({ "error": "Frase não encontrada" }); 
+    }
+}
