@@ -8,10 +8,12 @@ router.get('/ping', ApiController.ping);
 router.get('/random', ApiController.random);
 router.get('/name/:name', ApiController.name);
 
-router.post('/frases', ApiController.createPhrase)
+router.post('/frase', ApiController.createPhrase)
 router.get('/frases', ApiController.listPhrases)
-router.get('/frases/:id', ApiController.getPhrase)
-router.put('/frases/:id', ApiController.updatePhrase)
-router.delete('/frases/:id', ApiController.deletePhrase)
+router.get('/frase/aleatoria', ApiController.randowPhrase)
+router.get('/frase/:id', ApiController.getPhrase)
+router.put('/frase/:id', ApiController.updatePhrase)
+router.delete('/frase/:id', ApiController.deletePhrase)
+
 
 export default router;
